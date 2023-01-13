@@ -1,3 +1,4 @@
+import { Address } from './../../types/general';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
@@ -21,7 +22,7 @@ export class User {
   phone: string;
 
   @Prop()
-  address?: any;
+  address?: Address;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
