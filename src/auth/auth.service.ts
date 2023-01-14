@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { UserDocument } from 'src/user/schema/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { Payload } from './types';
+import { comparePasswords } from 'src/utilities/general';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
     pass: string,
   ): Promise<Partial<UserDocument> | null> {
     const user = await this.UserService.findOne(email);
-    if (user && user.password === pass) {
+    if (user && (await comparePasswords(pass, user.password))) {
       const { password, ...result } = user;
       return result;
     }
@@ -30,7 +31,7 @@ export class AuthService {
       sub: user._id,
       email: user.email,
       phone: user.phone,
-      ...(Object.keys(user.address).length > 0 && {
+      ...(Object.keys(user?.address ?? []).length > 0 && {
         address: {
           ...user.address,
         },

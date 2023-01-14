@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       username: payload.username,
       name: payload.name,
       email: payload.email,
-      ...(Object.keys(payload.address).length > 0 && {
+      ...(Object.keys(payload?.address ?? []).length > 0 && {
         address: {
           ...payload.address,
         },
