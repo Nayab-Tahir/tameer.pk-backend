@@ -6,24 +6,36 @@ import { User, UserDocument } from './schema/user.schema';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) {}
-
-  async createUser() {
+  private readonly users = [
+    {
+      userId: 1,
+      email: 'john',
+      password: 'changeme',
+    },
+    {
+      userId: 2,
+      email: 'maria',
+      password: 'guess',
+    },
+  ];
+  async create() {
     /// create user by using UserModel
   }
 
-  async updateUser() {
+  async update() {
     /// update user by using UserModel
   }
 
-  async findAllUsers() {
+  async findAll() {
     /// find all users by using UserModel
   }
 
-  async findUser() {
+  async findOne(email: string): Promise<Partial<User> | undefined> {
     /// find specific user by using UserModel
+    return this.users.find((user) => user.email === email);
   }
 
-  async deleteUser() {
+  async delete() {
     /// delete specific user by using UserModel
   }
 }
