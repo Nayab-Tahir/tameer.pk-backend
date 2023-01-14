@@ -11,7 +11,7 @@ export class AppController {
     private AuthService: AuthService,
   ) {}
 
-  @Get()
+  @Get('/hello')
   getHello(): string {
     return this.appService.getHello();
   }
