@@ -30,7 +30,7 @@ export class AuthService {
       sub: user._id,
       email: user.email,
       phone: user.phone,
-      ...(user.address && {
+      ...(Object.keys(user.address).length > 0 && {
         address: {
           ...user.address,
         },

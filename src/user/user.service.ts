@@ -1,41 +1,50 @@
+import { CreateUserDto } from './dto/create.dto';
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) {}
-  private readonly users = [
-    {
-      userId: 1,
-      email: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      email: 'maria',
-      password: 'guess',
-    },
-  ];
-  async create() {
-    /// create user by using UserModel
+
+  async create(user: CreateUserDto): Promise<UserDocument> {
+    const newUser = new this.UserModel(user);
+    return newUser.save();
   }
 
-  async update() {
-    /// update user by using UserModel
+  async update(
+    user: Partial<CreateUserDto>,
+    id: Types.ObjectId,
+  ): Promise<UserDocument> | undefined {
+    const updatedUser = await this.UserModel.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        ...user,
+      },
+      {
+        new: true,
+      },
+    );
+    return updatedUser;
   }
 
-  async findAll() {
-    /// find all users by using UserModel
+  async findAll(): Promise<UserDocument[] | undefined> {
+    return this.UserModel.find().exec();
   }
 
-  async findOne(email: string): Promise<Partial<User> | undefined> {
-    /// find specific user by using UserModel
-    return this.users.find((user) => user.email === email);
+  async findOneById(id: Types.ObjectId): Promise<UserDocument> | undefined {
+    return this.UserModel.findOne({ _id: id }).exec();
   }
 
-  async delete() {
+  async findOne(email: string): Promise<UserDocument> | undefined {
+    return this.UserModel.findOne({ email }).exec();
+  }
+
+  async delete(id: Types.ObjectId) {
     /// delete specific user by using UserModel
+    return this.UserModel.deleteOne({ _id: id }).exec();
   }
 }
