@@ -1,1 +1,4 @@
-export * from './general';
+export type Address = {
+  street?: string;
+  country?: string;
+};

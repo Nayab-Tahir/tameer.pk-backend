@@ -1,8 +1,8 @@
-import { Payload } from './../../dist/auth/types/general.d';
 import { UserService } from './../user/user.service';
 import { Injectable } from '@nestjs/common';
 import { UserDocument } from 'src/user/schema/user.schema';
 import { JwtService } from '@nestjs/jwt';
+import { Payload } from './types';
 
 @Injectable()
 export class AuthService {
