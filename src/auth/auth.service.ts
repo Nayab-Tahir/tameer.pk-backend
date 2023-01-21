@@ -18,8 +18,7 @@ export class AuthService {
   ): Promise<Partial<UserDocument> | null> {
     const user = await this.UserService.findOne(email);
     if (user && (await comparePasswords(pass, user.password))) {
-      const { password, ...result } = user;
-      return result;
+      return user;
     }
     return null;
   }
@@ -39,6 +38,7 @@ export class AuthService {
     };
     return {
       access_token: this.JwtService.sign(payload),
+      ...payload,
     };
   }
 }
