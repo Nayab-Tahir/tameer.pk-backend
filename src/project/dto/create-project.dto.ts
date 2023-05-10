@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface CreateProjectDto {
   area: string;
   completionPercentage: number;
@@ -9,6 +11,7 @@ export interface CreateProjectDto {
   revenue: number;
   startDate: string;
   status: ProjectStatus;
+  userId: Types.ObjectId;
 }
 
 export type ProjectStatus = 'ACTIVE' | 'COMPLETED';

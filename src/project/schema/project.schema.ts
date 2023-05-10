@@ -4,7 +4,7 @@ import { ProjectStatus } from '../dto/create-project.dto';
 
 export type ProjectDocument = HydratedDocument<Project>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Project {
   /**
    * Name of the ongoing project

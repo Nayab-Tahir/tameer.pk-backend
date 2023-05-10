@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MONGODB_CONNECTION_STRING } from './constants';
 import { UserModule } from './user/user.module';
 import { ProjectModule } from './project/project.module';
+import { TrackerModule } from './detailsTracker/tracking.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ProjectModule } from './project/project.module';
     UserModule,
     AuthModule,
     ProjectModule,
+    TrackerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

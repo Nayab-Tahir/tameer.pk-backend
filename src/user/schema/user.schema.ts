@@ -5,7 +5,7 @@ import { Hasher } from 'src/utilities/hasher';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   @Prop()
   name: string;

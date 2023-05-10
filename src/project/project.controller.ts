@@ -18,6 +18,7 @@ import { ProjectDocument } from './schema/project.schema';
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('/create')
   async create(
     @Body() projectData: CreateProjectDto,
