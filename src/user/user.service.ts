@@ -17,7 +17,7 @@ export class UserService {
     user: Partial<CreateUserDto>,
     id: Types.ObjectId,
   ): Promise<UserDocument> | undefined {
-    const updatedUser = await this.UserModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       {
         _id: id,
       },
@@ -28,7 +28,6 @@ export class UserService {
         new: true,
       },
     );
-    return updatedUser;
   }
 
   async findAll(): Promise<UserDocument[] | undefined> {
@@ -44,7 +43,6 @@ export class UserService {
   }
 
   async delete(id: Types.ObjectId) {
-    /// delete specific user by using UserModel
     return this.UserModel.deleteOne({ _id: id }).exec();
   }
 }

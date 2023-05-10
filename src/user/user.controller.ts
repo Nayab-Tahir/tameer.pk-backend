@@ -22,13 +22,13 @@ export class UserController {
   async create(
     @Body() userData: CreateUserDto,
   ): Promise<UserDocument> | undefined {
-    return await this.UserService.create(userData);
+    return this.UserService.create(userData);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/all')
   async findAll(): Promise<UserDocument[]> | undefined {
-    return await this.UserService.findAll();
+    return this.UserService.findAll();
   }
 
   @UseGuards(JwtAuthGuard)
@@ -36,7 +36,7 @@ export class UserController {
   async findOneById(
     @Param('id') id: Types.ObjectId,
   ): Promise<UserDocument> | undefined {
-    return await this.UserService.findOneById(id);
+    return this.UserService.findOneById(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -45,12 +45,12 @@ export class UserController {
     @Body() userData: Partial<CreateUserDto>,
     @Param('id') id: Types.ObjectId,
   ): Promise<UserDocument> | undefined {
-    return await this.UserService.update(userData, id);
+    return this.UserService.update(userData, id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')
   async delete(@Param('id') id: Types.ObjectId) {
-    return await this.UserService.delete(id);
+    return this.UserService.delete(id);
   }
 }

@@ -5,12 +5,14 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MONGODB_CONNECTION_STRING } from './constants';
 import { UserModule } from './user/user.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(MONGODB_CONNECTION_STRING),
     UserModule,
     AuthModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
