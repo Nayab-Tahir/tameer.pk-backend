@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { ProjectStatus } from '../dto/create-project.dto';
+import { ProjectAddress, ProjectStatus } from '../dto/create-project.dto';
 
 export type ProjectDocument = HydratedDocument<Project>;
 
@@ -28,7 +28,7 @@ export class Project {
    * Area of the project in sq ft.
    */
   @Prop({ required: true })
-  area: string;
+  area: number;
 
   /**
    * estimated days to complete
@@ -71,6 +71,12 @@ export class Project {
    */
   @Prop({ type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;
+
+  /**
+   * The address of the project
+   */
+  @Prop({ type: Object, required: true })
+  address: ProjectAddress;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);
