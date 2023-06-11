@@ -23,7 +23,8 @@ export class TrackerService {
           trackerData.completionPercentage,
         spentCost: containingProject.spentCost + trackerData.cost,
         spentNumberOfDays:
-          containingProject.spentNumberOfDays + trackerData.numberOfDays,
+          parseInt(containingProject.spentNumberOfDays.toString()) +
+          parseInt(trackerData.numberOfDays.toString()),
         profit: containingProject.profit + trackerData.profit,
         revenue: containingProject.revenue + trackerData.revenue,
       },
@@ -57,7 +58,8 @@ export class TrackerService {
           previousTracker.completionPercentage,
         spentCost: containingProject.spentCost - previousTracker.cost,
         spentNumberOfDays:
-          containingProject.spentNumberOfDays - previousTracker.numberOfDays,
+          parseInt(containingProject.spentNumberOfDays.toString()) -
+          parseInt(previousTracker.numberOfDays.toString()),
         profit: containingProject.profit - previousTracker.profit,
         revenue: containingProject.revenue - previousTracker.revenue,
       },
@@ -90,9 +92,9 @@ export class TrackerService {
           previousTracker.cost +
           detailTracker.cost,
         spentNumberOfDays:
-          containingProject.spentNumberOfDays -
-          previousTracker.numberOfDays +
-          detailTracker.numberOfDays,
+          parseInt(containingProject.spentNumberOfDays.toString()) -
+          parseInt(previousTracker.numberOfDays.toString()) +
+          parseInt(detailTracker.numberOfDays.toString()),
         profit:
           containingProject.profit -
           previousTracker.profit +
