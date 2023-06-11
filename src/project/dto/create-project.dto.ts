@@ -5,7 +5,9 @@ export interface CreateProjectDto {
   completionPercentage: number;
   description: string;
   estimatedCost: number;
-  estimatedDays: number;
+  spentCost: number;
+  estimatedNumberOfDays: number;
+  spentNumberOfDays: number;
   name: string;
   profit: number;
   revenue: number;

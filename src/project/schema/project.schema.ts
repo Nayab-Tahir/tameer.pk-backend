@@ -31,16 +31,28 @@ export class Project {
   area: number;
 
   /**
-   * estimated days to complete
+   * estimated number of days to complete
    */
   @Prop({ required: true })
-  estimatedDays: number;
+  estimatedNumberOfDays: number;
+
+  /**
+   * spent number of days so far
+   */
+  @Prop({ required: true })
+  spentNumberOfDays: number;
 
   /**
    * estimated cost to complete
    */
   @Prop({ required: true })
   estimatedCost: number;
+
+  /**
+   * spent cost so far
+   */
+  @Prop({ required: true })
+  spentCost: number;
 
   /**
    * working status of the project ACTIVE or COMPLETED
