@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project, ProjectDocument } from './schema/project.schema';
 import { Model, Types } from 'mongoose';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { TrackerService } from 'src/detailsTracker/tracking.service';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectModel(Project.name) private ProjectModal: Model<ProjectDocument>,
+    @Inject(TrackerService)
+    private trackerService: TrackerService,
   ) {}
 
   async create(project: CreateProjectDto): Promise<ProjectDocument> {
@@ -28,6 +31,7 @@ export class ProjectService {
   }
 
   async delete(id: Types.ObjectId) {
+    await this.trackerService.deleteManyByProjectId(id);
     return this.ProjectModal.deleteOne({ _id: id }).exec();
   }
 
