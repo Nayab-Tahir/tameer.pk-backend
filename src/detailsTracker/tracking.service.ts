@@ -47,7 +47,22 @@ export class TrackerService {
     return this.TrackerModel.findOne({ _id: id }).exec();
   }
 
-  async delete(id: Types.ObjectId) {
+  async delete(projectId: Types.ObjectId, id: Types.ObjectId) {
+    const previousTracker = await this.findOneById(id);
+    const containingProject = await this.projectService.findOneById(projectId);
+    await this.projectService.update(
+      {
+        completionPercentage:
+          containingProject.completionPercentage -
+          previousTracker.completionPercentage,
+        spentCost: containingProject.spentCost - previousTracker.cost,
+        spentNumberOfDays:
+          containingProject.spentNumberOfDays - previousTracker.numberOfDays,
+        profit: containingProject.profit - previousTracker.profit,
+        revenue: containingProject.revenue - previousTracker.revenue,
+      },
+      projectId,
+    );
     return this.TrackerModel.deleteOne({ _id: id }).exec();
   }
 
@@ -56,15 +71,46 @@ export class TrackerService {
   }
 
   async update(
-    project: Partial<CreateDetailsTracKer>,
+    detailTracker: Partial<CreateDetailsTracKer>,
     id: Types.ObjectId,
   ): Promise<TrackerDocument> {
+    const previousTracker = await this.findOneById(id);
+    const containingProject = await this.projectService.findOneById(
+      detailTracker.projectId,
+    );
+
+    await this.projectService.update(
+      {
+        completionPercentage:
+          containingProject.completionPercentage -
+          previousTracker.completionPercentage +
+          detailTracker.completionPercentage,
+        spentCost:
+          containingProject.spentCost -
+          previousTracker.cost +
+          detailTracker.cost,
+        spentNumberOfDays:
+          containingProject.spentNumberOfDays -
+          previousTracker.numberOfDays +
+          detailTracker.numberOfDays,
+        profit:
+          containingProject.profit -
+          previousTracker.profit +
+          detailTracker.profit,
+        revenue:
+          containingProject.revenue -
+          previousTracker.revenue +
+          detailTracker.revenue,
+      },
+      detailTracker.projectId,
+    );
+    delete detailTracker.projectId;
     return this.TrackerModel.findOneAndUpdate(
       {
         _id: id,
       },
       {
-        ...project,
+        ...detailTracker,
       },
       {
         new: true,

@@ -50,15 +50,18 @@ export class TrackerController {
   @UseGuards(JwtAuthGuard)
   @Patch('/update/:id')
   async update(
-    @Body() userData: Partial<CreateDetailsTracKer>,
+    @Body() detailTrackerData: Partial<CreateDetailsTracKer>,
     @Param('id') id: Types.ObjectId,
   ): Promise<TrackerDocument> | undefined {
-    return this.trackerService.update(userData, id);
+    return this.trackerService.update(detailTrackerData, id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')
-  async delete(@Param('id') id: Types.ObjectId) {
-    return this.trackerService.delete(id);
+  async delete(
+    @Body('projectId') projectId: Types.ObjectId,
+    @Param('id') id: Types.ObjectId,
+  ) {
+    return this.trackerService.delete(projectId, id);
   }
 }
