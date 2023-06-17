@@ -16,7 +16,7 @@ export class TrackerService {
     const containingProject = await this.projectService.findOneById(
       trackerData.projectId,
     );
-    await this.projectService.update(
+    const updatedProject = await this.projectService.update(
       {
         completionPercentage:
           containingProject.completionPercentage +
@@ -27,6 +27,11 @@ export class TrackerService {
           parseInt(trackerData.numberOfDays.toString()),
         profit: containingProject.profit + trackerData.profit,
         revenue: containingProject.revenue + trackerData.revenue,
+        ...(containingProject.completionPercentage +
+          trackerData.completionPercentage >=
+        100
+          ? { status: 'COMPLETED' }
+          : { status: 'ACTIVE' }),
       },
       trackerData.projectId,
     );
@@ -51,7 +56,7 @@ export class TrackerService {
   async delete(projectId: Types.ObjectId, id: Types.ObjectId) {
     const previousTracker = await this.findOneById(id);
     const containingProject = await this.projectService.findOneById(projectId);
-    await this.projectService.update(
+    const updatedProject = await this.projectService.update(
       {
         completionPercentage:
           containingProject.completionPercentage -
@@ -62,6 +67,11 @@ export class TrackerService {
           parseInt(previousTracker.numberOfDays.toString()),
         profit: containingProject.profit - previousTracker.profit,
         revenue: containingProject.revenue - previousTracker.revenue,
+        ...(containingProject.completionPercentage -
+          previousTracker.completionPercentage <
+        100
+          ? { status: 'ACTIVE' }
+          : { status: 'COMPLETED' }),
       },
       projectId,
     );
@@ -81,12 +91,17 @@ export class TrackerService {
       detailTracker.projectId,
     );
 
-    await this.projectService.update(
+    const updatedProject = await this.projectService.update(
       {
         completionPercentage:
           containingProject.completionPercentage -
-          previousTracker.completionPercentage +
-          detailTracker.completionPercentage,
+            previousTracker.completionPercentage +
+            detailTracker.completionPercentage >
+          100
+            ? 100
+            : containingProject.completionPercentage -
+              previousTracker.completionPercentage +
+              detailTracker.completionPercentage,
         spentCost:
           containingProject.spentCost -
           previousTracker.cost +
@@ -103,6 +118,12 @@ export class TrackerService {
           containingProject.revenue -
           previousTracker.revenue +
           detailTracker.revenue,
+        ...(containingProject.completionPercentage -
+          previousTracker.completionPercentage +
+          detailTracker.completionPercentage >=
+        100
+          ? { status: 'COMPLETED' }
+          : { status: 'ACTIVE' }),
       },
       detailTracker.projectId,
     );
