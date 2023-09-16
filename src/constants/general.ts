@@ -1,4 +1,4 @@
-export const APPLICATION_PORT = 3000;
+export const APPLICATION_PORT = process.env.PORT || 3000;
 export const JWT_SECRET = 'secret';
 export const MONGO_DB_USERNAME = 'abdullah';
 export const MONGO_DB_PASSWORD = 'mongodbPassword';
